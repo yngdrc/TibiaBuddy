@@ -1,4 +1,4 @@
-package com.aventurine.cheminsight.android.presentation.dashboard
+package com.aventurine.tibiabuddy.map
 
 import android.app.Application
 import androidx.compose.foundation.Image
@@ -10,8 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.AndroidViewModel
-import com.aventurine.tibiabuddy.map.MarkerUtils
-import com.aventurine.cheminsight.android.makeTileStreamProvider
 import com.aventurine.tibiabuddy.common.MarkerCallOut
 import ovh.plrapps.mapcompose.api.addCallout
 import ovh.plrapps.mapcompose.api.addLayer

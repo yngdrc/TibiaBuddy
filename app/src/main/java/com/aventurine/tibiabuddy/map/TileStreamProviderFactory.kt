@@ -1,4 +1,4 @@
-package com.aventurine.cheminsight.android
+package com.aventurine.tibiabuddy.map
 
 import android.content.Context
 import ovh.plrapps.mapcompose.core.TileStreamProvider

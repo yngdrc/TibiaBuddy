@@ -1,4 +1,4 @@
-package com.aventurine.cheminsight.android.presentation.navigation
+package com.aventurine.tibiabuddy.navigation
 
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
@@ -7,8 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.aventurine.tibiabuddy.map.MapScreen
-import com.aventurine.cheminsight.android.presentation.dashboard.MapViewModel
-import com.aventurine.tibiabuddy.navigation.Main
+import com.aventurine.tibiabuddy.map.MapViewModel
 import kotlinx.coroutines.CoroutineScope
 
 @Composable

@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.aventurine.cheminsight.android.presentation.dashboard.MapViewModel
 import com.aventurine.tibiabuddy.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -26,12 +25,6 @@ fun MapScreen(
     drawerState: DrawerState
 ) {
     Scaffold(
-//            topBar = {
-//                TopAppBar(
-//                    title = { Text(text = Screen.getScreenTitle(screenIndex = pagerState.currentPage)) },
-//                    colors = TopAppBarDefaults.topAppBarColors(titleContentColor = Color.Black)
-//                )
-//            },
         floatingActionButton = {
             Column {
                 SmallFloatingActionButton(
