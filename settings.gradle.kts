@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "TibiaBuddy"
 include(":app")
- 
+include(":api")

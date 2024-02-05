@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.aventurine.tibiabuddy.MainViewModel
 import com.aventurine.tibiabuddy.map.MapScreen
 import com.aventurine.tibiabuddy.map.MapViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -16,7 +17,8 @@ fun Navigation(
     navHostController: NavHostController,
     mapViewModel: MapViewModel,
     coroutineScope: CoroutineScope,
-    drawerState: DrawerState
+    drawerState: DrawerState,
+    mainViewModel: MainViewModel
 ) {
     NavHost(
         navController = navHostController,
@@ -27,7 +29,8 @@ fun Navigation(
             MapScreen(
                 mapViewModel = mapViewModel,
                 coroutineScope = coroutineScope,
-                drawerState = drawerState
+                drawerState = drawerState,
+                mainViewModel = mainViewModel
             )
         }
     }

@@ -12,11 +12,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -32,6 +37,7 @@ fun MainScreen() {
     val navHostController = rememberNavController()
     val navBackStackEntry = navHostController.currentBackStackEntryAsState()
     val mapViewModel: MapViewModel = viewModel()
+    val mainViewModel: MainViewModel = viewModel()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -54,6 +60,11 @@ fun MainScreen() {
                     },
                     shape = RectangleShape
                 )
+
+                Text(
+                    text = "Players online: ${mainViewModel.playersOnline.intValue}",
+                    textAlign = TextAlign.Center
+                )
             }
         }
     ) {
@@ -65,7 +76,8 @@ fun MainScreen() {
                 navHostController = navHostController,
                 mapViewModel = mapViewModel,
                 coroutineScope = coroutineScope,
-                drawerState = drawerState
+                drawerState = drawerState,
+                mainViewModel = mainViewModel
             )
         }
     }
