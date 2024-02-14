@@ -11,13 +11,19 @@ import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.MutableCreationExtras
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.aventurine.tibiabuddy.MainViewModel
 import com.aventurine.tibiabuddy.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ovh.plrapps.mapcompose.ui.MapUI
+import kotlin.math.max
 
 @Composable
 fun MapScreen(
@@ -26,6 +32,7 @@ fun MapScreen(
     drawerState: DrawerState,
     mainViewModel: MainViewModel
 ) {
+
     Scaffold(
         floatingActionButton = {
             Column {
@@ -51,7 +58,7 @@ fun MapScreen(
 
                 SmallFloatingActionButton(
                     onClick = {
-                        mapViewModel.changeLevel(newLevel = mapViewModel.level.intValue - 1)
+                        mapViewModel.changeLevel(newLevel = mapViewModel.currentLevel.intValue - 1)
                     }
                 ) {
                     Image(
@@ -63,7 +70,7 @@ fun MapScreen(
 
                 SmallFloatingActionButton(
                     onClick = {
-                        mapViewModel.changeLevel(newLevel = mapViewModel.level.intValue + 1)
+                        mapViewModel.changeLevel(newLevel = mapViewModel.currentLevel.intValue + 1)
                     }
                 ) {
                     Image(
@@ -76,15 +83,6 @@ fun MapScreen(
         },
         containerColor = Color.Black
     ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
-            MapContainer(viewModel = mapViewModel)
-        }
+        MapUI(modifier = Modifier.padding(paddingValues), state = mapViewModel.mapState)
     }
-}
-
-@Composable
-fun MapContainer(
-    viewModel: MapViewModel
-) {
-    MapUI(state = viewModel.mapState)
 }

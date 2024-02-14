@@ -11,6 +11,7 @@ interface Screen {
     companion object {
         fun getScreenTitle(screenIndex: Int): String = when (screenIndex) {
             Main.Map.screenIndex -> Main.Map.route
+            Main.Characters.screenIndex -> Main.Characters.route
             else -> TODO()
         }
     }
@@ -25,5 +26,11 @@ sealed class Main(
         route = "Map",
         screenIndex = 0,
         iconRes = R.drawable.icon_cyclopedia_map
+    )
+
+    data object Characters : Main(
+        route = "Characters",
+        screenIndex = 1,
+        iconRes = R.drawable.icon_cyclopedia_characterinfo
     )
 }

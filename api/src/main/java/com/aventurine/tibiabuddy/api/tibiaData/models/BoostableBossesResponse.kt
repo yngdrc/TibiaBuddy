@@ -2,7 +2,7 @@ package com.aventurine.tibiabuddy.api.tibiaData.models
 
 import com.google.gson.annotations.SerializedName
 
-data class BoostableBossesData(
+data class BoostableBossesResponse(
     @SerializedName("boosted")
     val boosted: BoostableBoss,
 

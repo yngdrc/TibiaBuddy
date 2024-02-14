@@ -1,47 +1,72 @@
 package com.aventurine.tibiabuddy.map
 
-import android.app.Application
+import android.content.Context
+import android.util.DisplayMetrics
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
-import androidx.lifecycle.AndroidViewModel
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.findViewTreeViewModelStoreOwner
+import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.MutableCreationExtras
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.aventurine.tibiabuddy.common.MarkerCallOut
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import ovh.plrapps.mapcompose.api.addCallout
 import ovh.plrapps.mapcompose.api.addLayer
 import ovh.plrapps.mapcompose.api.addMarker
+import ovh.plrapps.mapcompose.api.disableFadeIn
+import ovh.plrapps.mapcompose.api.moveLayerDown
+import ovh.plrapps.mapcompose.api.moveLayerUp
 import ovh.plrapps.mapcompose.api.onMarkerClick
-import ovh.plrapps.mapcompose.api.removeAllLayers
+import ovh.plrapps.mapcompose.api.reloadTiles
 import ovh.plrapps.mapcompose.api.removeAllMarkers
+import ovh.plrapps.mapcompose.api.removeCallout
 import ovh.plrapps.mapcompose.api.scale
+import ovh.plrapps.mapcompose.core.TileStreamProvider
 import ovh.plrapps.mapcompose.ui.layout.Fill
 import ovh.plrapps.mapcompose.ui.state.MapState
+import javax.inject.Inject
 
-class MapViewModel(
-    private val application: Application
-) : AndroidViewModel(application) {
-    val level = mutableIntStateOf(7)
+@HiltViewModel
+class MapViewModel @Inject constructor(
+    @ApplicationContext private val applicationContext: Context
+) : ViewModel() {
+
+    private val availableLevels = 0..15
+    val currentLevel = mutableIntStateOf(7)
+
+    private val visibleCallOutId = mutableStateOf("")
+    private val tileStreamProvider = TileStreamProvider { row, col, _ ->
+        try {
+            val x = (col * 256) + 31744
+            val y = (row * 256) + 30976
+            applicationContext.assets?.open(
+                "minimap/Minimap_Color_${x}_${y}_${currentLevel.intValue}.png"
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
 
     fun changeLevel(newLevel: Int) {
-        if (newLevel !in 0..15)
+        if (newLevel !in availableLevels)
             return
 
-        level.intValue = newLevel
-        mapState.removeAllLayers()
+        mapState.removeCallout(id = visibleCallOutId.value)
         mapState.removeAllMarkers()
-        mapState.addLayer(
-            makeTileStreamProvider(
-                appContext = application.applicationContext,
-                level = newLevel
-            )
-        )
+        mapState.reloadTiles()
 
         markersState.filter { marker ->
-            marker.floorId == level.intValue
+            marker.floorId == newLevel
         }.forEach { marker ->
             mapState.addMarker(
                 id = marker.id,
@@ -55,10 +80,12 @@ class MapViewModel(
                 )
             }
         }
+
+        currentLevel.intValue = newLevel
     }
 
     val markersState by mutableStateOf(
-        MarkerUtils.readMarkersData(appContext = application.applicationContext)
+        MarkerUtils.readMarkersData(appContext = applicationContext)
     )
 
     val mapState: MapState by mutableStateOf(
@@ -67,15 +94,10 @@ class MapViewModel(
             maxScale(10.0f)
             bitmapFilteringEnabled(false)
         }.apply {
-            addLayer(
-                makeTileStreamProvider(
-                    appContext = application.applicationContext,
-                    level = level.intValue
-                )
-            )
+            addLayer(tileStreamProvider = tileStreamProvider)
 
             markersState.filter { marker ->
-                marker.floorId == level.intValue
+                marker.floorId == currentLevel.intValue
             }.forEach { marker ->
                 addMarker(
                     id = marker.id,
@@ -107,6 +129,8 @@ class MapViewModel(
                         text = markerDescription,
                         currentZoom = scale
                     )
+
+                    visibleCallOutId.value = id
                 }
             }
         }

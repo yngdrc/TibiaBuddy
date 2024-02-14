@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -47,4 +49,11 @@ dependencies {
     api("com.facebook.flipper:flipper:0.246.0")
     api("com.facebook.soloader:soloader:0.10.5")
     api("com.facebook.flipper:flipper-network-plugin:0.201.0")
+
+    implementation("com.google.dagger:hilt-android:2.50")
+    kapt("com.google.dagger:hilt-compiler:2.50")
+}
+
+kapt {
+    correctErrorTypes = true
 }
