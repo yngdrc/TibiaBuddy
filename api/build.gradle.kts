@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.aventurine.tibiabuddy.api"
+    namespace = "app.aventurine.tibiabuddy.api"
     compileSdk = 34
 
     defaultConfig {
@@ -38,18 +38,14 @@ android {
 dependencies {
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    // Gson converter
+    api("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    api("com.facebook.flipper:flipper:0.246.0")
-    api("com.facebook.soloader:soloader:0.10.5")
-    api("com.facebook.flipper:flipper-network-plugin:0.201.0")
-
+    // Dagger hilt
     implementation("com.google.dagger:hilt-android:2.50")
     kapt("com.google.dagger:hilt-compiler:2.50")
 }
