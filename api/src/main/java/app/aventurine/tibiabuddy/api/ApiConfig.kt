@@ -1,5 +1,5 @@
 package app.aventurine.tibiabuddy.api
 
-object ApiSetup {
+object ApiConfig {
     const val TIBIA_BUDDY_API_VERSION = "v4"
 }

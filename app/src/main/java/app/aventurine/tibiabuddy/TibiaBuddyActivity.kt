@@ -15,7 +15,7 @@ class TibiaBuddyActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MainScreen()
+            TibiaBuddyScreen()
         }
     }
 
