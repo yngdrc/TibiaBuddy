@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.aventurine.tibiabuddy.instances.RetrofitInstance
-import app.aventurine.tibiabuddy.api.tibiaData.models.Character
+import app.aventurine.tibiabuddy.api.tibiaData.character.Character
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
