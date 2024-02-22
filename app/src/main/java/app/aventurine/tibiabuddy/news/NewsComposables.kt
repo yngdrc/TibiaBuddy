@@ -34,8 +34,8 @@ import androidx.core.text.HtmlCompat
 import app.aventurine.tibiabuddy.R
 import app.aventurine.tibiabuddy.api.tibiaData.enums.NewsCategory
 import app.aventurine.tibiabuddy.api.tibiaData.news.News
-import app.aventurine.tibiabuddy.ui.theme.cardBackground
-import app.aventurine.tibiabuddy.ui.theme.cardBorder
+import app.aventurine.tibiabuddy.ui.theme.cardBackgroundColor
+import app.aventurine.tibiabuddy.ui.theme.cardBorderColor
 import app.aventurine.tibiabuddy.ui.theme.cardTextColor
 import com.google.android.material.textview.MaterialTextView
 
@@ -63,10 +63,10 @@ fun NewsItem(
             .padding(10.dp),
         shape = RectangleShape,
         colors = cardColors(
-            containerColor = cardBackground,
+            containerColor = cardBackgroundColor,
             contentColor = cardTextColor
         ),
-        border = BorderStroke(1.dp, cardBorder)
+        border = BorderStroke(1.dp, cardBorderColor)
     ) {
         Column(
             modifier = Modifier.padding(10.dp)

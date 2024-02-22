@@ -5,7 +5,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import app.aventurine.tibiabuddy.ui.theme.background
+import app.aventurine.tibiabuddy.ui.theme.backgroundColor
 
 @Composable
 fun NewsScreen(
@@ -16,7 +16,7 @@ fun NewsScreen(
     }
 
     Scaffold(
-        containerColor = background
+        containerColor = backgroundColor
     ) { paddingValues ->
         News(
             news = newsViewModel.news,
