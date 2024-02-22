@@ -19,8 +19,7 @@ fun MarkerCallOut(
 ) {
     Card(
         shape = RectangleShape,
-        elevation = CardDefaults.elevatedCardElevation(),
-        modifier = Modifier
+        elevation = CardDefaults.elevatedCardElevation()
     ) {
         Text(
             text = text,
