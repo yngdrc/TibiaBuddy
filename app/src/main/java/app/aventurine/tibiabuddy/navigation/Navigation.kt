@@ -27,7 +27,9 @@ fun Navigation(
         modifier = modifier
     ) {
         composable(route = Main.News.route) { navBackStackEntry ->
-            NewsScreen()
+            NewsScreen(
+                newsViewModel = viewModel(viewModelStoreOwner = viewModelStoreOwner)
+            )
         }
 
         composable(route = Main.Map.route) { navBackStackEntry ->

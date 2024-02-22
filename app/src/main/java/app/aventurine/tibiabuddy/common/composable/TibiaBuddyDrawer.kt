@@ -1,11 +1,13 @@
 package app.aventurine.tibiabuddy.common.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.DrawerState
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -21,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import app.aventurine.tibiabuddy.R
 import app.aventurine.tibiabuddy.TibiaBuddyViewModel
 import app.aventurine.tibiabuddy.navigation.Main
 import app.aventurine.tibiabuddy.navigation.NavigationScreen
@@ -88,12 +91,19 @@ fun TibiaBuddyDrawerNavigationItem(
 fun OnlinePlayersItem(
     tibiaBuddyViewModel: TibiaBuddyViewModel
 ) {
-    Text(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentHeight(Alignment.Bottom)
-            .padding(15.dp),
-        text = "Players online: ${tibiaBuddyViewModel.playersOnline.intValue}",
-        textAlign = TextAlign.Center
-    )
+    Row {
+        Icon(
+            painter = painterResource(id = R.drawable.icon_players),
+            contentDescription = null
+        )
+
+        Text(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentHeight(Alignment.Bottom)
+                .padding(15.dp),
+            text = "${tibiaBuddyViewModel.playersOnline.intValue} Players Online",
+            textAlign = TextAlign.Center
+        )
+    }
 }

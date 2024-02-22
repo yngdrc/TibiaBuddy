@@ -13,6 +13,7 @@ import app.aventurine.tibiabuddy.api.tibiaData.houses.HouseResponse
 import app.aventurine.tibiabuddy.api.tibiaData.houses.HousesResponse
 import app.aventurine.tibiabuddy.api.tibiaData.killStatistics.KillStatisticsResponse
 import app.aventurine.tibiabuddy.api.tibiaData.news.NewsResponse
+import app.aventurine.tibiabuddy.api.tibiaData.news.SingleNewsResponse
 import app.aventurine.tibiabuddy.api.tibiaData.spells.SpellResponse
 import app.aventurine.tibiabuddy.api.tibiaData.spells.SpellsResponse
 import app.aventurine.tibiabuddy.api.tibiaData.worlds.WorldResponse
@@ -86,7 +87,7 @@ interface TibiaDataApiService {
     @GET("${ApiConfig.TIBIA_BUDDY_API_VERSION}/news/id/{news_id}")
     suspend fun getNewsById(
         @Path("news_id") newsId: Int
-    ): NewsResponse
+    ): SingleNewsResponse
 
     @GET("${ApiConfig.TIBIA_BUDDY_API_VERSION}/news/latest")
     suspend fun getLatestNews(): NewsResponse

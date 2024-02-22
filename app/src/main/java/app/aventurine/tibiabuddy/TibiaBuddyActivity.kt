@@ -16,9 +16,7 @@ class TibiaBuddyActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            TibiaBuddyTheme(
-                darkTheme = true
-            ) {
+            TibiaBuddyTheme {
                 TibiaBuddyScreen()
             }
         }
