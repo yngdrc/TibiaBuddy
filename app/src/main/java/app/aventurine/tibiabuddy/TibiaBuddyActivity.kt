@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import app.aventurine.tibiabuddy.common.AppWebBrowser
+import app.aventurine.tibiabuddy.ui.theme.TibiaBuddyTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -15,7 +16,11 @@ class TibiaBuddyActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            TibiaBuddyScreen()
+            TibiaBuddyTheme(
+                darkTheme = true
+            ) {
+                TibiaBuddyScreen()
+            }
         }
     }
 
