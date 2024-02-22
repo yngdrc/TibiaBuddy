@@ -11,7 +11,6 @@ import androidx.navigation.compose.composable
 import app.aventurine.tibiabuddy.TibiaBuddyViewModel
 import app.aventurine.tibiabuddy.characters.CharactersScreen
 import app.aventurine.tibiabuddy.map.MapScreen
-import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun Navigation(

@@ -1,6 +1,5 @@
 package app.aventurine.tibiabuddy.api.tibiaData.character
 
-import android.telephony.AccessNetworkConstants.GeranBand
 import com.google.gson.annotations.SerializedName
 
 data class ResponsibleForDeath(
