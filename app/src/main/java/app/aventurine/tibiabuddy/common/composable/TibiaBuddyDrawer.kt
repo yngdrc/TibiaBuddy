@@ -29,7 +29,6 @@ import app.aventurine.tibiabuddy.R
 import app.aventurine.tibiabuddy.TibiaBuddyViewModel
 import app.aventurine.tibiabuddy.navigation.Main
 import app.aventurine.tibiabuddy.navigation.NavigationScreen
-import app.aventurine.tibiabuddy.ui.theme.backgroundColor
 import app.aventurine.tibiabuddy.ui.theme.cardBackgroundColor
 
 @Composable
