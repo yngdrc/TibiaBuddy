@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import app.aventurine.tibiabuddy.TibiaBuddyViewModel
 import app.aventurine.tibiabuddy.characters.CharactersScreen
 import app.aventurine.tibiabuddy.map.MapScreen
+import app.aventurine.tibiabuddy.news.NewsScreen
 
 @Composable
 fun Navigation(
@@ -22,9 +23,13 @@ fun Navigation(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Main.Map.route,
+        startDestination = Main.News.route,
         modifier = modifier
     ) {
+        composable(route = Main.News.route) { navBackStackEntry ->
+            NewsScreen()
+        }
+
         composable(route = Main.Map.route) { navBackStackEntry ->
             MapScreen(
                 drawerState = drawerState,

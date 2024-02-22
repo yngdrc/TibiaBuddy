@@ -39,6 +39,12 @@ fun TibiaBuddyDrawer(
         drawerContent = {
             ModalDrawerSheet {
                 TibiaBuddyDrawerNavigationItem(
+                    navigationScreen = Main.News,
+                    navBackStackEntry = navBackStackEntry,
+                    navHostController = navHostController
+                )
+
+                TibiaBuddyDrawerNavigationItem(
                     navigationScreen = Main.Map,
                     navBackStackEntry = navBackStackEntry,
                     navHostController = navHostController
