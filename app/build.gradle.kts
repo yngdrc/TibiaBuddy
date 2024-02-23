@@ -65,6 +65,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.navigation:navigation-compose:2.7.6")
+    implementation("com.google.android.material:material:1.11.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -95,6 +96,9 @@ dependencies {
 
     // OpenID
     implementation("net.openid:appauth:0.11.1")
+
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.2.2")
 }
 
 kapt {

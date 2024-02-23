@@ -13,16 +13,16 @@ data class News(
     val id: Int,
 
     @SerializedName("news")
-    val news: String,
+    val news: String? = null,
 
     @SerializedName("type")
-    val type: String,
+    val type: String? = null,
 
     @SerializedName("url")
     val url: String,
 
     @SerializedName("url_api")
-    val urlApi: String,
+    val urlApi: String? = null,
 
     @SerializedName("content")
     val content: String? = null,

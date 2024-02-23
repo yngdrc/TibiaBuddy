@@ -1,11 +1,14 @@
 package app.aventurine.tibiabuddy.common.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.DrawerState
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -18,12 +21,15 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import app.aventurine.tibiabuddy.R
 import app.aventurine.tibiabuddy.TibiaBuddyViewModel
 import app.aventurine.tibiabuddy.navigation.Main
 import app.aventurine.tibiabuddy.navigation.NavigationScreen
+import app.aventurine.tibiabuddy.ui.theme.cardBackgroundColor
 
 @Composable
 fun TibiaBuddyDrawer(
@@ -37,7 +43,15 @@ fun TibiaBuddyDrawer(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
+            ModalDrawerSheet(
+                drawerContainerColor = cardBackgroundColor
+            ) {
+                TibiaBuddyDrawerNavigationItem(
+                    navigationScreen = Main.News,
+                    navBackStackEntry = navBackStackEntry,
+                    navHostController = navHostController
+                )
+
                 TibiaBuddyDrawerNavigationItem(
                     navigationScreen = Main.Map,
                     navBackStackEntry = navBackStackEntry,
@@ -82,12 +96,24 @@ fun TibiaBuddyDrawerNavigationItem(
 fun OnlinePlayersItem(
     tibiaBuddyViewModel: TibiaBuddyViewModel
 ) {
-    Text(
-        modifier = Modifier
-            .fillMaxSize()
+    Row(
+        modifier = Modifier.fillMaxSize()
             .wrapContentHeight(Alignment.Bottom)
-            .padding(15.dp),
-        text = "Players online: ${tibiaBuddyViewModel.playersOnline.intValue}",
-        textAlign = TextAlign.Center
-    )
+            .padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Absolute.Center
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.icon_players),
+            contentDescription = null,
+            modifier = Modifier.size(12.dp)
+        )
+
+        Text(
+            modifier = Modifier.padding(start = 5.dp),
+            text = "${tibiaBuddyViewModel.playersOnline.intValue} Players Online",
+            textAlign = TextAlign.Center,
+            fontSize = 12.sp
+        )
+    }
 }
