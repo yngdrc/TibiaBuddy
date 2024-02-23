@@ -4,10 +4,31 @@ import androidx.annotation.DrawableRes
 import app.aventurine.tibiabuddy.api.R
 
 enum class NewsCategory(
-    @DrawableRes val iconRes: Int
+    @DrawableRes val smallIconRes: Int,
+    @DrawableRes val bigIconRes: Int
 ) {
-    development(iconRes = R.drawable.newsicon_development_big),
-    community(iconRes = R.drawable.newsicon_community_big),
-    technical(iconRes = R.drawable.newsicon_technical_big),
-    support(iconRes = R.drawable.newsicon_support_big);
+    cipsoft(
+        smallIconRes = R.drawable.newsicon_cipsoft_small,
+        bigIconRes = R.drawable.newsicon_cipsoft_big
+    ),
+
+    development(
+        smallIconRes = R.drawable.newsicon_development_small,
+        bigIconRes = R.drawable.newsicon_development_big
+    ),
+
+    community(
+        smallIconRes = R.drawable.newsicon_community_small,
+        bigIconRes = R.drawable.newsicon_community_big
+    ),
+
+    technical(
+        smallIconRes = R.drawable.newsicon_technical_small,
+        bigIconRes = R.drawable.newsicon_technical_big
+    ),
+
+    support(
+        smallIconRes = R.drawable.newsicon_support_small,
+        bigIconRes = R.drawable.newsicon_support_big
+    )
 }

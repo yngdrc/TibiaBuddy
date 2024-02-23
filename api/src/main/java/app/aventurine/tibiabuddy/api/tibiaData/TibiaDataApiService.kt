@@ -93,7 +93,7 @@ interface TibiaDataApiService {
     suspend fun getLatestNews(): NewsResponse
 
     @GET("${ApiConfig.TIBIA_BUDDY_API_VERSION}/news/newsticker")
-    suspend fun getTickerNews(): NewsResponse
+    suspend fun getNewsTickers(): NewsResponse
 
     @GET("${ApiConfig.TIBIA_BUDDY_API_VERSION}/spell/{spell_id}")
     suspend fun getSpell(

@@ -13,7 +13,8 @@ import javax.inject.Inject
 class NewsViewModel @Inject constructor(
     private val retrofitInstance: RetrofitInstance
 ) : ViewModel() {
-    val news = mutableStateListOf<News>()
+    val latestNews = mutableStateListOf<News>()
+    val newsTickers = mutableStateListOf<News>()
 
     fun getNews() {
         viewModelScope.launch {
@@ -23,8 +24,24 @@ class NewsViewModel @Inject constructor(
                     retrofitInstance.tibiaDataApi.getNewsById(newsId = news.id)
                 }.map { news -> news.news }
 
-                news.clear()
-                news.addAll(result)
+                this@NewsViewModel.latestNews.clear()
+                this@NewsViewModel.latestNews.addAll(result)
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
+    fun getNewsTickers() {
+        viewModelScope.launch {
+            try {
+                val newsTickers = retrofitInstance.tibiaDataApi.getNewsTickers()
+                val result = newsTickers.news.take(5).map { newsTicker ->
+                    retrofitInstance.tibiaDataApi.getNewsById(newsId = newsTicker.id)
+                }.map { newsTicker -> newsTicker.news }
+
+                this@NewsViewModel.newsTickers.clear()
+                this@NewsViewModel.newsTickers.addAll(result)
             } catch (e: Exception) {
 
             }

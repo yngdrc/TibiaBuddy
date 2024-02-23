@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardDefaults.cardColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +28,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -37,6 +39,7 @@ import app.aventurine.tibiabuddy.api.tibiaData.news.News
 import app.aventurine.tibiabuddy.ui.theme.cardBackgroundColor
 import app.aventurine.tibiabuddy.ui.theme.cardBorderColor
 import app.aventurine.tibiabuddy.ui.theme.cardTextColor
+import app.aventurine.tibiabuddy.ui.theme.newsTickerDarkBackground
 import com.google.android.material.textview.MaterialTextView
 
 @Composable
@@ -66,7 +69,8 @@ fun NewsItem(
             containerColor = cardBackgroundColor,
             contentColor = cardTextColor
         ),
-        border = BorderStroke(1.dp, cardBorderColor)
+        border = BorderStroke(1.dp, cardBorderColor),
+        elevation = CardDefaults.cardElevation(5.dp)
     ) {
         Column(
             modifier = Modifier.padding(10.dp)
@@ -108,13 +112,17 @@ fun NewsItemHeader(
     }
 
     Row(
-        modifier = modifier.background(brush = brush).fillMaxWidth(),
+        modifier = modifier
+            .background(brush = brush)
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource(id = NewsCategory.valueOf(news.category).iconRes),
+            painter = painterResource(id = NewsCategory.valueOf(news.category).bigIconRes),
             contentDescription = null,
-            modifier = Modifier.size(30.dp).padding(5.dp)
+            modifier = Modifier
+                .size(30.dp)
+                .padding(5.dp)
         )
         Text(
             text = "${news.date} - ",
@@ -127,6 +135,69 @@ fun NewsItemHeader(
             color = Color.White,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+fun NewsTicker(
+    newsTickers: List<News>,
+    modifier: Modifier
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp)
+            .padding(top = 10.dp),
+        shape = RectangleShape,
+        colors = cardColors(
+            containerColor = cardBackgroundColor,
+            contentColor = cardTextColor
+        ),
+        border = BorderStroke(1.dp, cardBorderColor),
+        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
+    ) {
+        LazyColumn(
+            modifier = modifier.padding(10.dp)
+        ) {
+            items(count = newsTickers.size) { index ->
+                NewsTickerItem(
+                    newsTicker = newsTickers[index],
+                    backgroundColor = if (index % 2 == 0)
+                        newsTickerDarkBackground
+                    else
+                        cardBackgroundColor
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun NewsTickerItem(
+    newsTicker: News,
+    backgroundColor: Color
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = backgroundColor)
+            .padding(horizontal = 3.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = NewsCategory.valueOf(newsTicker.category).smallIconRes),
+            contentDescription = null,
+            modifier = Modifier
+                .size(11.dp)
+        )
+
+        Text(
+            text = "${newsTicker.date} - ${newsTicker.content}",
+            fontSize = 11.sp,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(start = 3.dp)
         )
     }
 }

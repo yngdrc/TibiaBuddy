@@ -1,5 +1,6 @@
 package app.aventurine.tibiabuddy.news
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -13,14 +14,22 @@ fun NewsScreen(
 ) {
     LaunchedEffect(Unit) {
         newsViewModel.getNews()
+        newsViewModel.getNewsTickers()
     }
 
     Scaffold(
         containerColor = backgroundColor
     ) { paddingValues ->
-        News(
-            news = newsViewModel.news,
-            modifier = Modifier.padding(paddingValues)
-        )
+        Column {
+            NewsTicker(
+                newsTickers = newsViewModel.newsTickers,
+                modifier = Modifier.padding(paddingValues)
+            )
+
+            News(
+                news = newsViewModel.latestNews,
+                modifier = Modifier.padding(paddingValues)
+            )
+        }
     }
 }
