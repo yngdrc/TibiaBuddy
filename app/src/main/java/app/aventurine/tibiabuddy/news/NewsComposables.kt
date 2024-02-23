@@ -1,9 +1,12 @@
 package app.aventurine.tibiabuddy.news
 
+import android.graphics.Matrix
 import android.text.util.Linkify
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,19 +14,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardDefaults.cardColors
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
@@ -36,22 +42,26 @@ import androidx.core.text.HtmlCompat
 import app.aventurine.tibiabuddy.R
 import app.aventurine.tibiabuddy.api.tibiaData.enums.NewsCategory
 import app.aventurine.tibiabuddy.api.tibiaData.news.News
+import app.aventurine.tibiabuddy.ui.theme.backgroundColor
 import app.aventurine.tibiabuddy.ui.theme.cardBackgroundColor
 import app.aventurine.tibiabuddy.ui.theme.cardBorderColor
 import app.aventurine.tibiabuddy.ui.theme.cardTextColor
-import app.aventurine.tibiabuddy.ui.theme.newsTickerDarkBackground
+import app.aventurine.tibiabuddy.ui.theme.martelFontFamily
+import app.aventurine.tibiabuddy.ui.theme.newsTickerDarkBackgroundColor
 import com.google.android.material.textview.MaterialTextView
 
 @Composable
 fun News(
-    news: List<News>,
-    modifier: Modifier
+    news: List<News>
 ) {
-    LazyColumn(
-        modifier = modifier
+    Column(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        items(count = news.size) { index ->
-            NewsItem(news = news[index])
+        GreenHeader(text = "News")
+        LazyColumn {
+            items(count = news.size) { index ->
+                NewsItem(news = news[index])
+            }
         }
     }
 }
@@ -63,14 +73,13 @@ fun NewsItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp),
+            .padding(bottom = 10.dp),
         shape = RectangleShape,
         colors = cardColors(
             containerColor = cardBackgroundColor,
             contentColor = cardTextColor
         ),
-        border = BorderStroke(1.dp, cardBorderColor),
-        elevation = CardDefaults.cardElevation(5.dp)
+        border = BorderStroke(1.dp, cardBorderColor)
     ) {
         Column(
             modifier = Modifier.padding(10.dp)
@@ -108,13 +117,18 @@ fun NewsItemHeader(
 ) {
     val image = ImageBitmap.imageResource(R.drawable.newsheadline_background)
     val brush = remember(image) {
-        ShaderBrush(ImageShader(image, TileMode.Repeated, TileMode.Mirror))
+        ShaderBrush(
+            ImageShader(image, TileMode.Mirror, TileMode.Mirror).apply {
+                setLocalMatrix(Matrix().apply { setScale(2.5.dp.value, 2.5.dp.value) })
+            }
+        )
     }
 
     Row(
         modifier = modifier
             .background(brush = brush)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .border(.5.dp, Color.Black),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -141,33 +155,32 @@ fun NewsItemHeader(
 
 @Composable
 fun NewsTicker(
-    newsTickers: List<News>,
-    modifier: Modifier
+    newsTickers: List<News>
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 10.dp)
-            .padding(top = 10.dp),
-        shape = RectangleShape,
-        colors = cardColors(
-            containerColor = cardBackgroundColor,
-            contentColor = cardTextColor
-        ),
-        border = BorderStroke(1.dp, cardBorderColor),
-        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp).shadow(10.dp)
     ) {
-        LazyColumn(
-            modifier = modifier.padding(10.dp)
+        GreenHeader(text = "News Ticker")
+        Card(
+            shape = RectangleShape,
+            colors = cardColors(
+                containerColor = cardBackgroundColor,
+                contentColor = cardTextColor
+            ),
+            border = BorderStroke(1.dp, cardBorderColor)
         ) {
-            items(count = newsTickers.size) { index ->
-                NewsTickerItem(
-                    newsTicker = newsTickers[index],
-                    backgroundColor = if (index % 2 == 0)
-                        newsTickerDarkBackground
-                    else
-                        cardBackgroundColor
-                )
+            LazyColumn(
+                modifier = Modifier.padding(10.dp)
+            ) {
+                items(count = newsTickers.size) { index ->
+                    NewsTickerItem(
+                        newsTicker = newsTickers[index],
+                        backgroundColor = if (index % 2 == 0)
+                            newsTickerDarkBackgroundColor
+                        else
+                            cardBackgroundColor
+                    )
+                }
             }
         }
     }
@@ -198,6 +211,50 @@ fun NewsTickerItem(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(start = 3.dp)
+        )
+    }
+}
+
+@Composable
+fun GreenHeader(
+    text: String
+) {
+    val image = ImageBitmap.imageResource(R.drawable.title_background_green)
+    val brush = remember(image) {
+        ShaderBrush(
+            ImageShader(image, TileMode.Mirror, TileMode.Mirror).apply {
+                setLocalMatrix(Matrix().apply { setScale(2.5.dp.value, 3.dp.value) })
+            }
+        )
+    }
+
+    Box(
+        modifier = Modifier
+            .background(brush)
+            .fillMaxWidth()
+            .border(1.dp, Color.Black)
+    ) {
+        Text(
+            text = text,
+            fontSize = 20.sp,
+            modifier = Modifier.padding(5.dp),
+            color = Color.Black,
+            fontFamily = martelFontFamily,
+            style = LocalTextStyle.current.copy(
+                drawStyle = Stroke(
+                    miter = 10f,
+                    width = 5f,
+                    join = StrokeJoin.Round
+                )
+            ),
+        )
+
+        Text(
+            text = text,
+            fontSize = 20.sp,
+            modifier = Modifier.padding(5.dp),
+            color = backgroundColor,
+            fontFamily = martelFontFamily,
         )
     }
 }

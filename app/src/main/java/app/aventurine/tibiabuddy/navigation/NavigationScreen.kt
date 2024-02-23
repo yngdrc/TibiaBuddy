@@ -14,7 +14,7 @@ sealed class Main(
 
     data object News : Main(
         route = "News",
-        iconRes = R.drawable.icon_news_client_features
+        iconRes = R.drawable.icon_news
     )
 
     data object Map : Main(

@@ -14,7 +14,9 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -30,6 +32,7 @@ import app.aventurine.tibiabuddy.TibiaBuddyViewModel
 import app.aventurine.tibiabuddy.navigation.Main
 import app.aventurine.tibiabuddy.navigation.NavigationScreen
 import app.aventurine.tibiabuddy.ui.theme.cardBackgroundColor
+import kotlinx.coroutines.flow.filter
 
 @Composable
 fun TibiaBuddyDrawer(
@@ -64,7 +67,10 @@ fun TibiaBuddyDrawer(
                     navHostController = navHostController
                 )
 
-                OnlinePlayersItem(tibiaBuddyViewModel = tibiaBuddyViewModel)
+                OnlinePlayersItem(
+                    tibiaBuddyViewModel = tibiaBuddyViewModel,
+                    drawerState = drawerState
+                )
             }
         },
         content = content
@@ -94,10 +100,18 @@ fun TibiaBuddyDrawerNavigationItem(
 
 @Composable
 fun OnlinePlayersItem(
-    tibiaBuddyViewModel: TibiaBuddyViewModel
+    tibiaBuddyViewModel: TibiaBuddyViewModel,
+    drawerState: DrawerState
 ) {
+    LaunchedEffect(Unit) {
+        snapshotFlow { drawerState.isOpen }.filter { it }.collect {
+            tibiaBuddyViewModel.getPlayersOnline()
+        }
+    }
+
     Row(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .wrapContentHeight(Alignment.Bottom)
             .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically,
