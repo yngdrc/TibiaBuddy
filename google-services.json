@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "764927273842",
+    "project_id": "tibiabuddy-3420f",
+    "storage_bucket": "tibiabuddy-3420f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764927273842:android:65f52cc62db79b4a188beb",
+        "android_client_info": {
+          "package_name": "app.aventurine.tibiabuddy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZyADVOzhaKUCh4kFwpQuJkDKnFzKUG54"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
