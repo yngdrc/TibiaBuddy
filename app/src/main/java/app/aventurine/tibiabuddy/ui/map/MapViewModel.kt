@@ -2,8 +2,10 @@ package app.aventurine.tibiabuddy.ui.map
 
 import androidx.lifecycle.ViewModel
 import app.aventurine.tibiabuddy.data.ApiConfig
-import kotlinx.coroutines.CoroutineDispatcher
+import app.aventurine.tibiabuddy.data.fileStorage.FileStorage
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,23 +18,38 @@ import ovh.plrapps.mapcompose.ui.layout.Fill
 import ovh.plrapps.mapcompose.ui.state.MapState
 import java.io.InputStream
 import java.net.URL
+import javax.inject.Inject
 
 data class MapUiState(
     val floorId: Int
 )
 
-class MapViewModel(
-    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.Default
+@HiltViewModel
+class MapViewModel @Inject constructor(
+    private val fileStorage: FileStorage
 ) : ViewModel() {
     companion object {
-        const val TILE_SIZE: Int = 256
-        const val LEFT_MOST_TILE: Int = 31744
-        const val RIGHT_MOST_TILE: Int = 34048
-        const val TOP_MOST_TILE: Int = 30976
-        const val BOTTOM_MOST_TILE: Int = 32768
+        private const val TILE_SIZE: Int = 256
+        private const val LEFT_MOST_TILE: Int = 31744
+        private const val RIGHT_MOST_TILE: Int = 34048
+        private const val TOP_MOST_TILE: Int = 30976
+        private const val BOTTOM_MOST_TILE: Int = 32768
 
-        const val MAP_WIDTH = RIGHT_MOST_TILE - LEFT_MOST_TILE + TILE_SIZE
-        const val MAP_HEIGHT = BOTTOM_MOST_TILE - TOP_MOST_TILE + TILE_SIZE
+        private const val MAP_WIDTH = RIGHT_MOST_TILE - LEFT_MOST_TILE + TILE_SIZE
+        private const val MAP_HEIGHT = BOTTOM_MOST_TILE - TOP_MOST_TILE + TILE_SIZE
+    }
+
+    val mapState: MapState = MapState(
+        levelCount = 1,
+        fullWidth = MAP_WIDTH,
+        fullHeight = MAP_HEIGHT,
+        tileSize = TILE_SIZE
+    ) {
+        minimumScaleMode(minimumScaleMode = Fill)
+        maxScale(10.0f)
+        bitmapFilteringEnabled(false)
+    }.apply {
+        addLayer(tileStreamProvider = TileProvider())
     }
 
     private val _mapUiState: MutableStateFlow<MapUiState> = MutableStateFlow(
@@ -66,9 +83,16 @@ class MapViewModel(
                 floorId = mapUiState.value.floorId
             )
 
-            val tileUrl = getTileUrl(tileFileName = tileFileName)
-            withContext(coroutineDispatcher) {
-                URL(tileUrl).openStream().buffered()
+            withContext(Dispatchers.IO) {
+                val localFile = fileStorage.getFileIfExists(fileName = tileFileName).getOrNull()
+                if (localFile != null)
+                    return@withContext localFile.inputStream()
+
+                val tileUrl = getTileUrl(tileFileName = tileFileName)
+                val inputStream = URL(tileUrl).openStream()
+                this.async {
+                    fileStorage.saveFile(tileFileName, inputStream.readBytes())
+                }.await().getOrThrow().inputStream()
             }
         } catch (e: Exception) {
             null
@@ -88,18 +112,5 @@ class MapViewModel(
         }
 
         mapState.reloadTiles()
-    }
-
-    val mapState: MapState = MapState(
-        levelCount = 1,
-        fullWidth = MAP_WIDTH,
-        fullHeight = MAP_HEIGHT,
-        tileSize = TILE_SIZE
-    ) {
-        minimumScaleMode(minimumScaleMode = Fill)
-        maxScale(10.0f)
-        bitmapFilteringEnabled(false)
-    }.apply {
-        addLayer(tileStreamProvider = TileProvider())
     }
 }
